@@ -6,7 +6,6 @@ import (
 	"net/http"
 )
 
-// PuuidResponse represents the response structure from the Riot API
 type PuuidResponse struct {
 	Puuid    string `json:"puuid"`
 	GameName string `json:"gameName"`
@@ -24,7 +23,7 @@ func GetRiotPuuid(tagLine string, gameName string) (PuuidResponse, error) {
 	if err != nil {
 		return PuuidResponse{}, err
 	}
-	req.Header.Add("X-Riot-Token", "RGAPI-733e5712-4df5-4799-9492-a69a98e3500d") // Replace with your actual API key
+	req.Header.Add("X-Riot-Token", "RGAPI-733e5712-4df5-4799-9492-a69a98e3500d") // "generic key",  /! to hide later
 
 	res, err := client.Do(req)
 	if err != nil {
@@ -37,10 +36,8 @@ func GetRiotPuuid(tagLine string, gameName string) (PuuidResponse, error) {
 		return PuuidResponse{}, fmt.Errorf("error: unexpected status code %d", res.StatusCode)
 	}
 
-	// Create a decoder from the response body
 	decoder := json.NewDecoder(res.Body)
 
-	// Decode the JSON data from the response body
 	var response PuuidResponse
 	err = decoder.Decode(&response)
 	if err != nil {
